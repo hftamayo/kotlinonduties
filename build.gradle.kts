@@ -3,16 +3,17 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.0.4")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.38.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
+        classpath("com.android.tools.build:gradle:8.2.2")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.40.1")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21")
     }
 }
 plugins {
-    id("com.android.application") version "8.2.0" apply false
-    id("com.android.library") version "8.2.0" apply false
-    id("org.jetbrains.kotlin.android") version "1.9.0" apply false
-    id("com.google.devtools.ksp") version "1.8.10-1.0.9" apply false
+    id("com.android.application") version "8.2.2" apply false
+    id("com.android.library") version "8.2.2" apply false
+    id("org.jetbrains.kotlin.android") version "1.8.20" apply false
+    id("com.google.devtools.ksp") version "1.8.21-1.0.11" apply false
 }
