@@ -1,4 +1,4 @@
-package com.hftamayo.onduties
+package com.hftamayo.onduties.feature_todo.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
