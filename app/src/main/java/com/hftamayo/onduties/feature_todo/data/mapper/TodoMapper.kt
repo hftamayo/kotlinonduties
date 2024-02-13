@@ -107,3 +107,42 @@ fun List<LocalTodoItem>.toTodoItemListFromLocal(): List<TodoItem> {
         )
     }
 }
+
+fun List<LocalTodoItem>.toRemoteTodoItemListFromLocal(): List<RemoteTodoItem> {
+    return this.map { todo ->
+        RemoteTodoItem(
+            title = todo.title,
+            description = todo.description,
+            timestamp = todo.timestamp,
+            completed = todo.completed,
+            archived = todo.archived,
+            id = todo.id
+        )
+    }
+}
+
+fun List<RemoteTodoItem>.toTodoItemListFromRemote(): List<TodoItem> {
+    return this.map { todo ->
+        TodoItem(
+            title = todo.title,
+            description = todo.description,
+            timestamp = todo.timestamp,
+            completed = todo.completed,
+            archived = todo.archived,
+            id = todo.id
+        )
+    }
+}
+
+fun List<RemoteTodoItem>.toLocalTodoItemListFromRemote(): List<LocalTodoItem> {
+    return this.map { todo ->
+        LocalTodoItem(
+            title = todo.title,
+            description = todo.description,
+            timestamp = todo.timestamp,
+            completed = todo.completed,
+            archived = todo.archived,
+            id = todo.id
+        )
+    }
+}
