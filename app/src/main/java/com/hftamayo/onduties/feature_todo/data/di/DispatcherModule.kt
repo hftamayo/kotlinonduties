@@ -7,7 +7,7 @@ import javax.inject.Qualifier
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class DispatcherIO
+annotation class IoDispatcher
 object DispatcherModule {
     @IoDispatcher
     @Provides
