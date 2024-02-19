@@ -7,6 +7,9 @@ import androidx.annotation.RequiresExtension
 import com.hftamayo.onduties.feature_todo.data.di.IoDispatcher
 import com.hftamayo.onduties.feature_todo.data.local.TodoDao
 import com.hftamayo.onduties.feature_todo.data.mapper.toLocalTodoItem
+import com.hftamayo.onduties.feature_todo.data.mapper.toLocalTodoItemListFromRemote
+import com.hftamayo.onduties.feature_todo.data.mapper.toRemoteTodoItem
+import com.hftamayo.onduties.feature_todo.data.mapper.toTodoItem
 import com.hftamayo.onduties.feature_todo.data.mapper.toTodoItemListFromLocal
 import com.hftamayo.onduties.feature_todo.data.remote.TodoApi
 import com.hftamayo.onduties.feature_todo.domain.model.TodoItem
@@ -22,7 +25,8 @@ class TodoListRepoImpl(
     private val api: TodoApi,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 
-): TodoListRepo {
+) : TodoListRepo {
+    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     override suspend fun getAllTodos(): List<TodoItem> {
         getAllTodosFromRemote()
         return dao.getAllTodoItems().toTodoItemListFromLocal()
@@ -36,44 +40,70 @@ class TodoListRepoImpl(
     override suspend fun getAllTodosFromRemote() {
         return withContext(dispatcher) {
             try {
+                refreshRoomCache()
             } catch (e: Exception) {
-                when(e){
+                when (e) {
                     is UnknownHostException, is ConnectException, is HttpException -> {
-                        Log.e("HTTP" "Error: No data from Remote")
-                        if()
-                        // handle network exception
+                        Log.e("HTTP", "Error: No data from Remote")
+                        if (isCacheEmpty()) {
+                            Log.e("Cache", "Error: No data from local Room cache")
+                            throw Exception("Error: device offline and\nno data from local Room cache")
+                        }
                     }
+
+                    else -> throw e
                 }
                 // handle exception
             }
-            val remoteTodoList = api.getAllTodos()
-            dao.addTodoItems(remoteTodoList.map { it.toLocalTodoItem() })
         }
     }
 
+    private suspend fun refreshRoomCache() {
+        val remoteBooks = api.getAllTodos().filterNotNull()
+        dao.addAllTodoItem(remoteBooks.toLocalTodoItemListFromRemote())
+    }
+
     private fun isCacheEmpty(): Boolean {
-        return dao.getAllTodoItems().isEmpty()
+        var empty = true
+        if (dao.getAllTodoItems().isEmpty()) empty = false
+        return empty
     }
 
     override suspend fun getSingleTodoItemById(id: Int): TodoItem? {
         return dao.getSingleTodoItemById(id)?.toTodoItem()
     }
 
-    override suspend fun addTodoItem(todoItem: TodoItem) {
+    override suspend fun addTodoItem(todo: TodoItem) {
         val newId = dao.addTodoItem(todo.toLocalTodoItem())
         val id = newId.toInt()
         val url = "todo/$id.json"
         api.addTodo(url, todo.toRemoteTodoItem().copy(id = id))
     }
 
-    override suspend fun updateTodoItem(todoItem: TodoItem) {
+    override suspend fun updateTodoItem(todo: TodoItem) {
         dao.addTodoItem(todo.toLocalTodoItem())
         api.updateTodoItem(todo.id, todo.toRemoteTodoItem())
 
     }
-    override suspend fun deleteTodoItem(todoItem: TodoItem) {
-        TODO("Not yet implemented")
+
+    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+    override suspend fun deleteTodoItem(todo: TodoItem) {
+        try {
+            val response = api.deleteTodo(todo.id)
+            if (response.isSuccessful) {
+                Log.i("API DELETE:", "Response successful")
+            } else {
+                Log.e("API DELETE:", "Response not successful")
+                Log.e("API DELETE:", response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            when (e) {
+                is UnknownHostException, is ConnectException, is HttpException -> {
+                    Log.e("HTTP", "Error: could not delete")
+                }
+                else -> throw e
+            }
+            // handle exception
+        }
     }
-
-
 }
