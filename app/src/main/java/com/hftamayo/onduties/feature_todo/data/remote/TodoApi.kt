@@ -25,7 +25,7 @@ interface TodoApi {
     suspend fun addTodo(@Url url: String, @Body updatedTodo: RemoteTodoItem): Response<Unit>
 
     @DELETE("todo/{id}.json")
-    suspend fun deleteTodoById(@Path("id") id: Int?): Response<Unit>
+    suspend fun deleteTodo(@Path("id") id: Int?): Response<Unit>
 
     @PUT("todo/{id}.json")
     suspend fun updateTodoItem(@Path("id") id: Int?, @Body todoITem: RemoteTodoItem): Response<Unit>
