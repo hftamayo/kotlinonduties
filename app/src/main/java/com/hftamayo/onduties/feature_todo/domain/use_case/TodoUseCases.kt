@@ -4,6 +4,8 @@ import com.hftamayo.onduties.core.util.TodoUseCaseStrings
 import com.hftamayo.onduties.feature_todo.domain.model.TodoItem
 import com.hftamayo.onduties.feature_todo.domain.repo.TodoListRepo
 import com.hftamayo.onduties.feature_todo.domain.util.InvalidTodoItemException
+import com.hftamayo.onduties.feature_todo.domain.util.SortingDirection
+import com.hftamayo.onduties.feature_todo.domain.util.TodoItemOrder
 import javax.inject.Inject
 
 class TodoUseCases @Inject constructor(
@@ -37,5 +39,11 @@ class TodoUseCases @Inject constructor(
 
     suspend fun getTodoItemById(id: Int): TodoItem? {
         return repo.getSingleTodoItemById(id)
+    }
+
+    suspend fun getTodoItems(
+        todoItemOrder: TodoItemOrder = TodoItemOrder.Time(SortingDirection.Down, true)
+    ){
+        var todos = repo.getAllTodosFromLocalCache()
     }
 }
