@@ -43,22 +43,36 @@ class TodoUseCases @Inject constructor(
 
     suspend fun getTodoItems(
         todoItemOrder: TodoItemOrder = TodoItemOrder.Time(SortingDirection.Down, true)
-    ) : List<TodoItem>{
+    ): TodoUseCaseResult {
         var todos = repo.getAllTodosFromLocalCache()
 
-        if(todos.isEmpty()){
+        if (todos.isEmpty()) {
             todos = repo.getAllTodos()
         }
 
-        val filteredTodos = if(todoItemOrder.showArchived){
+        val filteredTodos = if (todoItemOrder.showArchived) {
             todos
         } else {
             todos.filter { !it.archived }
         }
+
+        return when (todoItemOrder.sortingDirection) {
+            is SortingDirection.Down -> {
+                when (todoItemOrder) {
+                    is TodoItemOrder.Title -> TodoUseCaseResult.Success(filteredTodos.sortedBy { it.title.lowercase() })
+                    is TodoItemOrder.Title -> TodoUseCaseResult.Success(filteredTodos.sortedBy { it.title.lowercase() })
+                    is TodoItemOrder.Title -> TodoUseCaseResult.Success(filteredTodos.sortedBy { it.title.lowercase() })
+                }
+            }
+
+            is SortingDirection.Up -> {
+
+            }
+        }
     }
 }
 
-sealed class TodoUseCaseResult{
-    data class Success(val message: String) : TodoUseCaseResult()
+sealed class TodoUseCaseResult {
+    data class Success(val todoItems: List<TodoItem>) : TodoUseCaseResult()
     data class Error(val message: String) : TodoUseCaseResult()
 }
