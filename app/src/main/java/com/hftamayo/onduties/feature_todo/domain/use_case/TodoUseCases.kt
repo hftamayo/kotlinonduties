@@ -59,14 +59,18 @@ class TodoUseCases @Inject constructor(
         return when (todoItemOrder.sortingDirection) {
             is SortingDirection.Down -> {
                 when (todoItemOrder) {
-                    is TodoItemOrder.Title -> TodoUseCaseResult.Success(filteredTodos.sortedBy { it.title.lowercase() })
-                    is TodoItemOrder.Title -> TodoUseCaseResult.Success(filteredTodos.sortedBy { it.title.lowercase() })
-                    is TodoItemOrder.Title -> TodoUseCaseResult.Success(filteredTodos.sortedBy { it.title.lowercase() })
+                    is TodoItemOrder.Title -> TodoUseCaseResult.Success(filteredTodos.sortedByDescending { it.title.lowercase() })
+                    is TodoItemOrder.Time -> TodoUseCaseResult.Success(filteredTodos.sortedByDescending { it.timestamp })
+                    is TodoItemOrder.Completed -> TodoUseCaseResult.Success(filteredTodos.sortedByDescending { it.completed })
                 }
             }
 
             is SortingDirection.Up -> {
-
+                when (todoItemOrder) {
+                    is TodoItemOrder.Title -> TodoUseCaseResult.Success(filteredTodos.sortedBy { it.title.lowercase() })
+                    is TodoItemOrder.Time -> TodoUseCaseResult.Success(filteredTodos.sortedBy { it.timestamp })
+                    is TodoItemOrder.Completed -> TodoUseCaseResult.Success(filteredTodos.sortedBy { it.completed })
+                }
             }
         }
     }
