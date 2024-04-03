@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.hftamayo.onduties"
-        minSdk = 24
+        minSdk = 30
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -43,7 +43,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.4.3"
     }
     packaging {
         resources {
@@ -82,9 +82,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
     //dagger hilt
-    implementation("com.google.dagger:hilt-android:2.38.1")
-    kapt("androidx.hilt:hilt-compiler:1.0.0")
-    kapt("com.google.dagger:hilt-android-compiler:2.38.1")
+    implementation("com.google.dagger:hilt-android:2.47")
+    kapt("androidx.hilt:hilt-compiler:1.1.0-beta01")
+    kapt("com.google.dagger:hilt-android-compiler:2.47")
 
     //room
     implementation("androidx.room:room-ktx:2.5.2")
