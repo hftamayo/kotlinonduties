@@ -38,7 +38,16 @@ class TodoListViewMode @Inject constructor(
     fun onEvent(event: TodoListEvent){
         when(event){
             is TodoListEvent.Sort -> {
-                getTodoItems(event.todoItemOrder)
+                if(
+                    _state.value.todoItemOrder == event.todoItemOrder &&
+                    _state.value.todoItemOrder.showArchived == event.todoItemOrder.showArchived &&
+                ){
+                    return
+                }
+                _state.value = state.value.copy(
+                    todoItemOrder = event.todoItemOrder,
+                )
+                getTodoItems()
             }
             is TodoListEvent.Delete -> {
                 viewModelScope.launch (dispatcher + errorHandler){
@@ -60,18 +69,18 @@ class TodoListViewMode @Inject constructor(
 
     }
 
-    fun getTodoItems(todoItemOrder: TodoItemOrder){
+    fun getTodoItems(){
         getTodoItemsJob?.cancel()
 
         getTodoItemsJob = viewModelScope.launch( dispatcher + errorHandler) {
             val result = todoUseCase.getTodoItems(
-                todoItemOrder = todoItemOrder
+                todoItemOrder = _state.value.todoItemOrder
             )
             when(result){
                 is TodoUseCaseResult.Success -> {
                     _state.value = state.value.copy(
                         todoItems = result.todoItems,
-                        todoItemOrder = todoItemOrder,
+                        todoItemOrder = _state.value.todoItemOrder,
                         isLoading = false,
                         error = null
                     )
