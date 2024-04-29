@@ -35,7 +35,28 @@ class TodoListViewMode @Inject constructor(
         )
     }
 
-    fun onEvent(){
+    fun onEvent(event: TodoListEvent){
+        when(event){
+            is TodoListEvent.Sort -> {
+                getTodoItems(event.todoItemOrder)
+            }
+            is TodoListEvent.Delete -> {
+                viewModelScope.launch (dispatcher + errorHandler){
+                    todoUseCases.deteteTodoItem(event.todo)
+                    getTodoItems(_state.value.todoItemOrder)
+                    undoTodoItem = event.todo
+                }
+            }
+            is TodoListEvent.ToggleCompleted -> {
+                toggleCompleted(event.todoItem)
+            }
+            is TodoListEvent.ToggleArchived -> {
+                toggleArchived(event.todoItem)
+            }
+            is TodoListEvent.undoDelete -> {
+                undoDelete()
+            }
+        }
 
     }
 
