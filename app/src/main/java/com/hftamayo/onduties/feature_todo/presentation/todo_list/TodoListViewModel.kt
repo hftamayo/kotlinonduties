@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hftamayo.onduties.core.util.TodoListStrings
 import com.hftamayo.onduties.feature_todo.data.di.IoDispatcher
 import com.hftamayo.onduties.feature_todo.domain.model.TodoItem
 import com.hftamayo.onduties.feature_todo.domain.use_case.TodoUseCaseResult
@@ -34,6 +35,10 @@ class TodoListViewMode @Inject constructor(
         )
     }
 
+    fun onEvent(){
+
+    }
+
     fun getTodoItems(todoItemOrder: TodoItemOrder){
         getTodoItemsJob?.cancel()
 
@@ -52,7 +57,7 @@ class TodoListViewMode @Inject constructor(
                 }
                 is TodoUseCaseResult.Error -> {
                     _state.value = state.value.copy(
-                        error = "Could not retrieve Todo items: " + result.message,
+                        error = TodoListStrings.COULD_NOT_RETRIEVE_TODO_ITEMS + result.message,
                         isLoading = false
                     )
                 }
