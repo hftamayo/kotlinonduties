@@ -21,13 +21,13 @@ import javax.inject.Inject
 class TodoListViewMode @Inject constructor(
     private val todoUseCase: TodoUseCases,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
-): ViewModel(){
+) : ViewModel() {
     private val _state = mutableStateOf(TodoListState())
     val state: State<TodoListState> = _state
 
     private var undoTodoItem: TodoItem? = null
     private var getTodoItemsJob: Job? = null
-    private val errorHandler = CoroutineExceptionHandler {_, e ->
+    private val errorHandler = CoroutineExceptionHandler { _, e ->
         e.printStackTrace()
         _state.value = state.value.copy(
             error = e.message,
@@ -35,13 +35,15 @@ class TodoListViewMode @Inject constructor(
         )
     }
 
-    fun onEvent(event: TodoListEvent){
-        when(event){
+    fun onEvent(event: TodoListEvent) {
+        when (event) {
             is TodoListEvent.Sort -> {
-                if(
-                    _state.value.todoItemOrder == event.todoItemOrder &&
+                val stateOrderAlreadyMatchesEventOrder =
+                    _state.value.todoItemOrder::class == event.todoItemOrder::class &&
                     _state.value.todoItemOrder.showArchived == event.todoItemOrder.showArchived &&
-                ){
+                    _state.value.todoItemOrder.sortingDirection == event.todoItemOrder.sortingDirection
+
+                if (stateOrderAlreadyMatchesEventOrder) {
                     return
                 }
                 _state.value = state.value.copy(
@@ -49,34 +51,30 @@ class TodoListViewMode @Inject constructor(
                 )
                 getTodoItems()
             }
-            is TodoListEvent.Delete -> {
-                viewModelScope.launch (dispatcher + errorHandler){
-                    todoUseCases.deteteTodoItem(event.todo)
-                    getTodoItems(_state.value.todoItemOrder)
-                    undoTodoItem = event.todo
-                }
-            }
-            is TodoListEvent.ToggleCompleted -> {
-                toggleCompleted(event.todoItem)
-            }
+
             is TodoListEvent.ToggleArchived -> {
-                toggleArchived(event.todoItem)
+                TODO()
             }
+
+            is TodoListEvent.ToggleCompleted -> {
+                TODO()
+            }
+
             is TodoListEvent.undoDelete -> {
-                undoDelete()
+                TODO()
             }
         }
 
     }
 
-    fun getTodoItems(){
+    fun getTodoItems() {
         getTodoItemsJob?.cancel()
 
-        getTodoItemsJob = viewModelScope.launch( dispatcher + errorHandler) {
+        getTodoItemsJob = viewModelScope.launch(dispatcher + errorHandler) {
             val result = todoUseCase.getTodoItems(
                 todoItemOrder = _state.value.todoItemOrder
             )
-            when(result){
+            when (result) {
                 is TodoUseCaseResult.Success -> {
                     _state.value = state.value.copy(
                         todoItems = result.todoItems,
@@ -85,6 +83,7 @@ class TodoListViewMode @Inject constructor(
                         error = null
                     )
                 }
+
                 is TodoUseCaseResult.Error -> {
                     _state.value = state.value.copy(
                         error = TodoListStrings.COULD_NOT_RETRIEVE_TODO_ITEMS + result.message,
