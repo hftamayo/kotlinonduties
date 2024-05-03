@@ -37,6 +37,14 @@ class TodoListViewMode @Inject constructor(
 
     fun onEvent(event: TodoListEvent) {
         when (event) {
+            is TodoListEvent.Delete -> {
+                viewModelScope.launch (dispatcher + errorHandler){
+                    todoUseCase.deleteTodoItem(event.todo)
+                    getTodoItems()
+                    undoTodoItem = event.todo
+                }
+            }
+
             is TodoListEvent.Sort -> {
                 val stateOrderAlreadyMatchesEventOrder =
                     _state.value.todoItemOrder::class == event.todoItemOrder::class &&
@@ -53,11 +61,17 @@ class TodoListViewMode @Inject constructor(
             }
 
             is TodoListEvent.ToggleArchived -> {
-                TODO()
+                viewModelScope.launch (dispatcher + errorHandler){
+                    todoUseCase.toggleArchiveTodoItem(event.todo)
+                    getTodoItems()
+                }
             }
 
             is TodoListEvent.ToggleCompleted -> {
-                TODO()
+                viewModelScope.launch (dispatcher + errorHandler){
+                    todoUseCase.toggleCompleteTodoItem(event.todo)
+                    getTodoItems()
+                }
             }
 
             is TodoListEvent.undoDelete -> {
