@@ -38,7 +38,7 @@ class TodoListViewMode @Inject constructor(
     fun onEvent(event: TodoListEvent) {
         when (event) {
             is TodoListEvent.Delete -> {
-                viewModelScope.launch (dispatcher + errorHandler){
+                viewModelScope.launch(dispatcher + errorHandler) {
                     todoUseCase.deleteTodoItem(event.todo)
                     getTodoItems()
                     undoTodoItem = event.todo
@@ -48,8 +48,8 @@ class TodoListViewMode @Inject constructor(
             is TodoListEvent.Sort -> {
                 val stateOrderAlreadyMatchesEventOrder =
                     _state.value.todoItemOrder::class == event.todoItemOrder::class &&
-                    _state.value.todoItemOrder.showArchived == event.todoItemOrder.showArchived &&
-                    _state.value.todoItemOrder.sortingDirection == event.todoItemOrder.sortingDirection
+                            _state.value.todoItemOrder.showArchived == event.todoItemOrder.showArchived &&
+                            _state.value.todoItemOrder.sortingDirection == event.todoItemOrder.sortingDirection
 
                 if (stateOrderAlreadyMatchesEventOrder) {
                     return
@@ -61,24 +61,27 @@ class TodoListViewMode @Inject constructor(
             }
 
             is TodoListEvent.ToggleArchived -> {
-                viewModelScope.launch (dispatcher + errorHandler){
-                    todoUseCase.toggleArchiveTodoItem(event.todo)
+                viewModelScope.launch(dispatcher + errorHandler) {
+                    todoUseCase.toggleArchiveTodoItem(todo = event.todo)
                     getTodoItems()
                 }
             }
 
             is TodoListEvent.ToggleCompleted -> {
-                viewModelScope.launch (dispatcher + errorHandler){
-                    todoUseCase.toggleCompleteTodoItem(event.todo)
+                viewModelScope.launch(dispatcher + errorHandler) {
+                    todoUseCase.toggleCompleteTodoItem(todo = event.todo)
                     getTodoItems()
                 }
             }
 
             is TodoListEvent.undoDelete -> {
-                TODO()
+                viewModelScope.launch(dispatcher + errorHandler) {
+                    todoUseCase.addTodoItem(undoTodoItem ?: return@launch)
+                    undoTodoItem = null
+                    getTodoItems()
+                }
             }
         }
-
     }
 
     fun getTodoItems() {
