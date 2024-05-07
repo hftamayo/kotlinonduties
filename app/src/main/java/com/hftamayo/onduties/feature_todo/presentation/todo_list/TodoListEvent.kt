@@ -8,5 +8,6 @@ sealed class TodoListEvent{
     data class Delete(val todoItem: TodoItem): TodoListEvent()
     data class ToggleCompleted(val todoItem: TodoItem): TodoListEvent()
     data class ToggleArchived(val todoItem: TodoItem): TodoListEvent()
+    object undoDelete: TodoListEvent()
 
 }
