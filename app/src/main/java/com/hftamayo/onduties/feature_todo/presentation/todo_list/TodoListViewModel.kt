@@ -39,9 +39,9 @@ class TodoListViewMode @Inject constructor(
         when (event) {
             is TodoListEvent.Delete -> {
                 viewModelScope.launch(dispatcher + errorHandler) {
-                    todoUseCase.deleteTodoItem(event.todo)
+                    todoUseCase.deleteTodoItem(event.todoItem)
                     getTodoItems()
-                    undoTodoItem = event.todo
+                    undoTodoItem = event.todoItem
                 }
             }
 
@@ -62,14 +62,14 @@ class TodoListViewMode @Inject constructor(
 
             is TodoListEvent.ToggleArchived -> {
                 viewModelScope.launch(dispatcher + errorHandler) {
-                    todoUseCase.toggleArchiveTodoItem(todo = event.todo)
+                    todoUseCase.toggleArchiveTodoItem(todo = event.todoItem)
                     getTodoItems()
                 }
             }
 
             is TodoListEvent.ToggleCompleted -> {
                 viewModelScope.launch(dispatcher + errorHandler) {
-                    todoUseCase.toggleCompleteTodoItem(todo = event.todo)
+                    todoUseCase.toggleCompleteTodoItem(todo = event.todoItem)
                     getTodoItems()
                 }
             }
