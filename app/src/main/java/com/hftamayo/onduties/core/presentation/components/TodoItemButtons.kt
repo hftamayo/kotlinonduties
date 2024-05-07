@@ -46,5 +46,13 @@ fun CompleteButtons(
 fun EmptyCircle(color: Color, strokeWith: Float = 9f) {
     Canvas(
         modifier = Modifier.fillMaxSize(),
+        onDraw = {
+            drawCircle(
+                color = color,
+                radius = size.minDimension / 2,
+                center = size.center,
+                style = androidx.compose.ui.graphics.drawscope.Stroke(strokeWith)
+            )
+        }
     )
 }
