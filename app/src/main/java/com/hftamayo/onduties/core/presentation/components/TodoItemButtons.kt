@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Archive
 import androidx.compose.material.icons.filled.CheckCircleOutline
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -69,6 +70,25 @@ fun ArchiveButton(
             imageVector = Icons.Default.Archive,
             contentDescription = ContentDescriptions.ARCHIVE_TODO_ITEM,
             tint = color,
+            modifier = Modifier.size(48.dp)
+        )
+    }
+}
+
+@Composable
+fun DeleteButton(
+    onDeleteClick: () -> Unit,
+    color: Color = MaterialTheme.colorScheme.secondary,
+    modifier: Modifier = Modifier
+) {
+    IconButton(
+        onClick = onDeleteClick,
+        modifier = modifier
+    ) {
+        Icon(
+            imageVector = Icons.Default.Delete,
+            contentDescription = ContentDescriptions.DELETE_TODO_ITEM,
+            tint = MaterialTheme.colorScheme.error,
             modifier = Modifier.size(48.dp)
         )
     }
