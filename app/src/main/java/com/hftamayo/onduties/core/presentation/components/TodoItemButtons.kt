@@ -4,9 +4,11 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Archive
 import androidx.compose.material.icons.filled.CheckCircleOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -51,4 +53,23 @@ fun EmptyCircle(color: Color, strokeWith: Float = 9f) {
             )
         }
     )
+}
+
+@Composable
+fun ArchiveButton(
+    onArchiveClick: () -> Unit,
+    color: Color = MaterialTheme.colorScheme.secondary,
+    modifier: Modifier = Modifier
+) {
+    IconButton(
+        onClick = onArchiveClick,
+        modifier = modifier
+    ) {
+        Icon(
+            imageVector = Icons.Default.Archive,
+            contentDescription = ContentDescriptions.ARCHIVE_TODO_ITEM,
+            tint = color,
+            modifier = Modifier.size(48.dp)
+        )
+    }
 }
