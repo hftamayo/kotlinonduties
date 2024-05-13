@@ -31,11 +31,7 @@ fun CompleteButtons(
                 modifier = Modifier.size(48.dp)
             )
         } else {
-            Icon(
-                imageVector = Icons.Default.Check,
-                contentDescription = "Mark as complete",
-                tint = color
-            )
+            EmptyCircle(color = color)
         }
     }
 
@@ -48,10 +44,10 @@ fun EmptyCircle(color: Color, strokeWith: Float = 9f) {
         modifier = Modifier.fillMaxSize(),
         onDraw = {
             drawCircle(
-                color = color,
-                radius = size.minDimension / 2,
-                center = size.center,
-                style = androidx.compose.ui.graphics.drawscope.Stroke(strokeWith)
+                color,
+                radius = size.width / 2,
+                center = center,
+                style = androidx.compose.ui.graphics.drawscope.Stroke(width= strokeWith)
             )
         }
     )
