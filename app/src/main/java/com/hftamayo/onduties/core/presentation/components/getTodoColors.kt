@@ -1,5 +1,6 @@
 package com.hftamayo.onduties.core.presentation.components
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.hftamayo.onduties.feature_todo.domain.model.TodoItem
@@ -16,17 +17,19 @@ data class TodoItemColors (
 fun getTodoColors(todo: TodoItem): TodoItemColors {
     return if (todo.archived) {
         TodoItemColors(
-            backgroundColor = Color(0xFFE0E0E0),
-            textColor = Color(0xFF9E9E9E),
-            archiveIconColor = Color(0xFF9E9E9E),
-            checkColor = Color(0xFF9E9E9E)
+            backgroundColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.6f),
+            textColor = MaterialTheme.colorScheme.onSecondary,
+            archiveIconColor = MaterialTheme.colorScheme.onSecondary,
+            checkColor = if(todo.completed) MaterialTheme.colorScheme.tertiaryContainer
+            else MaterialTheme.colorScheme.onSecondary
         )
     } else {
         TodoItemColors(
-            backgroundColor = Color(0xFFFFFFFF),
-            textColor = Color(0xFF000000),
-            archiveIconColor = Color(0xFF000000),
-            checkColor = Color(0xFF000000)
+            backgroundColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.6f),
+            textColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            archiveIconColor = MaterialTheme.colorScheme.secondary,
+            checkColor = if(todo.completed) MaterialTheme.colorScheme.tertiaryContainer
+            else MaterialTheme.colorScheme.secondary
         )
     }
 }
