@@ -12,7 +12,7 @@ fun TodoItemCard (
     modifier: Modifier = Modifier,
     onDeleteClick: () -> Unit,
     onCompleteClick: () -> Unit,
-    onArchiveClick: () -> Unit
+    onArchiveClick: () -> Unit,
     onCardClick: () -> Unit
 ){
 }
