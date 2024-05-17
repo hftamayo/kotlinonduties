@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.hftamayo.onduties.core.util.ContentDescriptions
 
 @Composable
-fun CompleteButtons(
+fun CompleteButton(
     onCompleteClick: () -> Unit,
     color: Color,
     isComplete: Boolean,
