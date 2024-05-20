@@ -19,7 +19,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.hftamayo.onduties.core.presentation.components.ArchiveButton
 import com.hftamayo.onduties.core.presentation.components.CompleteButton
+import com.hftamayo.onduties.core.presentation.components.DeleteButton
 import com.hftamayo.onduties.core.presentation.components.getTodoColors
 import com.hftamayo.onduties.feature_todo.domain.model.TodoItem
 import com.hftamayo.onduties.ui.theme.OnDutiesTheme
@@ -57,16 +59,16 @@ fun TodoItemCard(
                 overflow = TextOverflow.Ellipsis,
             )
         }
-        Row (
+        Row(
             verticalAlignment = Alignment.Top
-        ){
+        ) {
             Column(
                 modifier = modifier
                     .fillMaxWidth()
                     .padding(start = 8.dp)
                     .weight(1f),
                 verticalArrangement = Arrangement.Top
-            ){
+            ) {
                 Text(
                     text = todo.description,
                     color = todoColors.textColor,
@@ -76,7 +78,17 @@ fun TodoItemCard(
                     overflow = TextOverflow.Ellipsis,
                 )
             }
-
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(0.1f)
+                    .padding(end = 4.dp)
+            ) {
+                ArchiveButton(onArchiveClick, todoColors.archiveIconColor)
+                DeleteButton(onDeleteClick)
+            }
         }
 
     }
