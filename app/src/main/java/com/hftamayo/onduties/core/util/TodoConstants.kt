@@ -6,6 +6,14 @@ object TodoUseCaseStrings {
 
 object TodoListStrings {
     const val COULD_NOT_RETRIEVE_TODO_ITEMS = "Could not retrieve Todo items: "
+    const val TODO_LIST = "Todo List"
+    const val TITLE = "Title"
+    const val TIME = "Time"
+    const val Completed = "Completed"
+    const val SORT_UP = "Sort up"
+    const val SORT_DOWN = "Sort down"
+    const val SHOW_ARCHIVED = "Show archived"
+    const val SORT_BY = "Sort by"
 }
 
 object ContentDescriptions {
