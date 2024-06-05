@@ -87,18 +87,18 @@ fun sortingDrawerOptions(
         }
     )
 
-    val sortDownSelected = todoItemOrder.sortingDirection == SortingDirection.Down
+    val sortUpSelected = todoItemOrder.sortingDirection == SortingDirection.Up
     NavigationDrawerItem(
         label = {
             IconRow(
-                text = TodoListStrings.SORT_DOWN,
-                isChecked = sortDownSelected
+                text = TodoListStrings.SORT_UP,
+                isChecked = sortUpSelected
             )
         },
         selected = false,
         onClick = {
             onOrderChange(
-                TodoItemOrder.copy(SortingDirection.Down, todoItemOrder.showArchived)
+                TodoItemOrder.copy(SortingDirection.Up, todoItemOrder.showArchived)
             )
         }
     )
