@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.FloatingActionButton
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hftamayo.onduties.R
+import com.hftamayo.onduties.core.util.ContentDescriptions
 import com.hftamayo.onduties.core.util.TodoListStrings
 
 @Composable
@@ -75,25 +77,28 @@ fun TodoListScreen(
     ) {
         Scaffold(
             floatingActionButton = {
-                FloatingActionButton(onClick = {
-                /*TODO*/
-                },
+                FloatingActionButton(
+                    onClick = {
+                        /*TODO*/
+                    },
                     shape = CircleShape,
                     containerColor = MaterialTheme.colorScheme.primary,
-                    ) {
+                ) {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = ContentDescriptions.ADD_TODO_ITEM,
+                        contentDescription = ContentDescriptions.ADD_TODO,
                         tint = MaterialTheme.colorScheme.onPrimary
                     )
-
                 }
-            }
+            },
+            topBar = {
+                CenterAlignedTopAppBar(title = { /*TODO*/ })
+            },
         ) {
 
         }
 
-     }) {
+    }) {
 
     }
 
