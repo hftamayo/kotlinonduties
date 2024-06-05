@@ -21,5 +21,5 @@ object ContentDescriptions {
     const val COMPLETE_TODO_ITEM = "Complete Todo item"
     const val ARCHIVE_TODO_ITEM = "Archive Todo item"
     const val SELECTED = "Selected"
-    const val ADD = "Add Floating Action Button"
+    const val ADD_TODO = "Add Todo Item"
 }
