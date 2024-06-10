@@ -9,12 +9,14 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -92,7 +95,56 @@ fun TodoListScreen(
                 }
             },
             topBar = {
-                CenterAlignedTopAppBar(title = { /*TODO*/ })
+                CenterAlignedTopAppBar(
+                    title = {
+                        Text(
+                    text = TodoListStrings.TODO_LIST,
+                    maxLines    = 1,
+                    overflow    = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+                            },
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
+                        scrolledContainerColor = MaterialTheme.colorScheme.primary,
+                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                        titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                        actionIconContentColor = MaterialTheme.colorScheme.onPrimary
+                    ),
+                    navigationIcon = {},
+                    actions = {
+                        IconButton(
+                            onClick = {
+                                drawerState.open()
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Sort,
+                                contentDescription = ContentDescriptions.OPEN_SORTING_DRAWER,
+                                tint = MaterialTheme.colorScheme.onPrimary
+                            )
+                        }
+                        )
+                    }
+
+
+
+                    navigationIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Menu,
+                            contentDescription = ContentDescriptions.OPEN_DRAWER,
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
+                    },
+                    actions = {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = ContentDescriptions.SEARCH,
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+                )
             },
         ) {
 
