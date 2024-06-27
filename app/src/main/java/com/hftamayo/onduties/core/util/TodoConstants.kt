@@ -22,4 +22,5 @@ object ContentDescriptions {
     const val ARCHIVE_TODO_ITEM = "Archive Todo item"
     const val SELECTED = "Selected"
     const val ADD_TODO = "Add Todo Item"
+    const val SORTING_MENU = "Sorting menu"
 }
