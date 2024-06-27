@@ -98,13 +98,13 @@ fun TodoListScreen(
                 CenterAlignedTopAppBar(
                     title = {
                         Text(
-                    text = TodoListStrings.TODO_LIST,
-                    maxLines    = 1,
-                    overflow    = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.headlineLarge,
-                    color = MaterialTheme.colorScheme.onPrimary
-                )
-                            },
+                            text = TodoListStrings.TODO_LIST,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.headlineLarge,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                    },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
                         scrolledContainerColor = MaterialTheme.colorScheme.primary,
@@ -116,17 +116,40 @@ fun TodoListScreen(
                     actions = {
                         IconButton(
                             onClick = {
-                                drawerState.open()
+                                scope.launch { drawerState.open() }
                             }
                         ) {
                             Icon(
-                                imageVector = Icons.Default.Sort,
-                                contentDescription = ContentDescriptions.OPEN_SORTING_DRAWER,
+                                imageVector = Icons.Filled.Menu,
+                                contentDescription = ContentDescriptions.SORTING_MENU,
                                 tint = MaterialTheme.colorScheme.onPrimary
                             )
                         }
-                        )
-                    }
+                    },
+                    scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopBarState())
+                )
+            },
+            snackbarHost = {
+                snackbarHost(hostState = snackbarHostState)
+            }
+        ) {
+            TodoListContent(
+                todoItems = state.todoItems,
+                onTodoItemClick = { todoId ->
+                    navController.navigate("todoDetail/$todoId")
+                },
+                onTodoItemDelete = { todoId ->
+                    viewModel.onEvent(TodoListEvent.Delete(todoId))
+                },
+                onTodoItemComplete = { todoId ->
+                    viewModel.onEvent(TodoListEvent.Complete(todoId))
+                },
+                onTodoItemArchive = { todoId ->
+                    viewModel.onEvent(TodoListEvent.Archive(todoId))
+                }
+            )
+        }
+    }
 
 
 
