@@ -3,6 +3,7 @@ package com.hftamayo.onduties.feature_todo.presentation.todo_list
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -48,6 +49,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.hftamayo.onduties.R
 import com.hftamayo.onduties.core.util.ContentDescriptions
 import com.hftamayo.onduties.core.util.TodoListStrings
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @ExperimentalMaterial3Api
 @OptIn(ExperimentalMaterial3Api::class)
@@ -150,13 +152,13 @@ fun TodoListScreen(
             snackbarHost = {
                 SnackbarHost(hostState = snackbarHostState)
             }
-        ) {  padding ->
+        ) { padding ->
             Box(
                 contentAligment = Alignment.TopStart,
                 modifier = Modifier
                     .fillMaxSize()
                     .background(color = MaterialTheme.colorScheme.background)
-            ){
+            ) {
                 Image(
                     painter = painterResource(id = backgroundImage),
                     contentDescription = ContentDescriptions.BACKGROUND_IMAGE,
@@ -169,44 +171,62 @@ fun TodoListScreen(
                 ) {
 
                 }
-                if(state.isLoading){
-                    Column{
+                if (state.isLoading) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         CircularProgressIndicator(
                             Modifier.semantics {
                                 this.contentDescription = ContentDescriptions.LOADING_INDICATOR
-
                             }
                         )
                     }
-            }
+                }
 
-        }
-    }
-
-
-
-                    navigationIcon = {
-                        Icon(
-                            imageVector = Icons.Default.Menu,
-                            contentDescription = ContentDescriptions.OPEN_DRAWER,
-                            tint = MaterialTheme.colorScheme.onPrimary
-                        )
-                    },
-                    actions = {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = ContentDescriptions.SEARCH,
-                            tint = MaterialTheme.colorScheme.onPrimary
+                if (state.error != null) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = state.error,
+                            fontSize = 30.sp,
+                            lineHeight = 36.sp
                         )
                     }
-                )
-            },
-        ) {
+                }
 
+            }
         }
-
-    }) {
-
     }
+
+
+
+    navigationIcon = {
+        Icon(
+            imageVector = Icons.Default.Menu,
+            contentDescription = ContentDescriptions.OPEN_DRAWER,
+            tint = MaterialTheme.colorScheme.onPrimary
+        )
+    },
+    actions = {
+        Icon(
+            imageVector = Icons.Default.Search,
+            contentDescription = ContentDescriptions.SEARCH,
+            tint = MaterialTheme.colorScheme.onPrimary
+        )
+    }
+    )
+},
+) {
+
+}
+
+}) {
+
+}
 
 }
