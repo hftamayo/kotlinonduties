@@ -1,12 +1,18 @@
 package com.hftamayo.onduties.feature_todo.presentation.todo_list
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,8 +33,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,6 +49,7 @@ import com.hftamayo.onduties.R
 import com.hftamayo.onduties.core.util.ContentDescriptions
 import com.hftamayo.onduties.core.util.TodoListStrings
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@ExperimentalMaterial3Api
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoListScreen(
@@ -139,21 +151,35 @@ fun TodoListScreen(
                 SnackbarHost(hostState = snackbarHostState)
             }
         ) {  padding ->
-            TodoListContent(
-                todoItems = state.todoItems,
-                onTodoItemClick = { todoId ->
-                    navController.navigate("todoDetail/$todoId")
-                },
-                onTodoItemDelete = { todoId ->
-                    viewModel.onEvent(TodoListEvent.Delete(todoId))
-                },
-                onTodoItemComplete = { todoId ->
-                    viewModel.onEvent(TodoListEvent.Complete(todoId))
-                },
-                onTodoItemArchive = { todoId ->
-                    viewModel.onEvent(TodoListEvent.Archive(todoId))
+            Box(
+                contentAligment = Alignment.TopStart,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = MaterialTheme.colorScheme.background)
+            ){
+                Image(
+                    painter = painterResource(id = backgroundImage),
+                    contentDescription = ContentDescriptions.BACKGROUND_IMAGE,
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier.fillMaxSize(),
+                    alignment = Alignment.TopStart
+                )
+                Column(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+
                 }
-            )
+                if(state.isLoading){
+                    Column{
+                        CircularProgressIndicator(
+                            Modifier.semantics {
+                                this.contentDescription = ContentDescriptions.LOADING_INDICATOR
+
+                            }
+                        )
+                    }
+            }
+
         }
     }
 
