@@ -23,4 +23,5 @@ object ContentDescriptions {
     const val SELECTED = "Selected"
     const val ADD_TODO = "Add Todo Item"
     const val SORTING_MENU = "Sorting menu"
+    const val BACKGROUND_IMAGE = "Background image"
 }
