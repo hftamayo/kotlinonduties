@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -49,6 +50,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.hftamayo.onduties.R
 import com.hftamayo.onduties.core.util.ContentDescriptions
 import com.hftamayo.onduties.core.util.TodoListStrings
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @ExperimentalMaterial3Api
@@ -169,7 +171,32 @@ fun TodoListScreen(
                 Column(
                     modifier = Modifier.fillMaxSize()
                 ) {
-
+                    LazyColumn (
+                     modifier = Modifier
+                         .fillMaxSize()
+                         .padding(horizontal = 12.dp)
+                         .padding(top = 64.dp)
+                    ){
+                        items(state.todoItems){
+                            todo ->
+                            TodoItemCard(
+                                todo = todo,
+                                onDeleteClick = {
+                                    viewModel.onEvent(TodoListEvent.Delete(todo))
+                                    scope.launch {
+                                        val undo = snackbarHostState.showSnackbar(
+                                            message = TodoListStrings.TODO_DELETED,
+                                            actionLabel = TodoListStrings.UNDO,
+                                            duration = SnackbarDuration.Short
+                                        )
+                                    }
+                                                },
+                                onCompleteClick = { viewModel.onEvent(TodoListEvent.Complete(todo)) },
+                                onArchiveClick = { viewModel.onEvent(TodoListEvent.Archive(todo)) },
+                                onCardClick = { navController.navigate("todo/${todo.id}") }
+                            )
+                        }
+                    }
                 }
                 if (state.isLoading) {
                     Column(
