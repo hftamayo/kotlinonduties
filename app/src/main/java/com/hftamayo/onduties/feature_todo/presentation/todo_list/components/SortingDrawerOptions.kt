@@ -102,5 +102,13 @@ fun sortingDrawerOptions(
             )
         }
     )
+    Divider()
+
+    NavigationDrawerItem(label = {
+        IconRow(text = TodoListStrings.SHOW_ARCHIVED, isChecked = todoItemOrder.showArchived)
+
+    }, selected = false, onClick = {
+        onOrderChange(todoItemOrder.copy(todoItemOrder.sortingDirection, !todoItemOrder))
+    })
 
 }
