@@ -25,8 +25,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -185,14 +187,19 @@ fun TodoListScreen(
                                     viewModel.onEvent(TodoListEvent.Delete(todo))
                                     scope.launch {
                                         val undo = snackbarHostState.showSnackbar(
-                                            message = TodoListStrings.TODO_DELETED,
+                                            message = TodoListStrings.TODO_ITEM_DELETED,
                                             actionLabel = TodoListStrings.UNDO,
                                             duration = SnackbarDuration.Short
                                         )
+                                        if (undo == SnackbarResult.ActionPerformed) {
+                                            viewModel.onEvent(TodoListEvent.UnDelete)
+                                        }
                                     }
-                                                },
-                                onCompleteClick = { viewModel.onEvent(TodoListEvent.Complete(todo)) },
-                                onArchiveClick = { viewModel.onEvent(TodoListEvent.Archive(todo)) },
+                                },
+                                onCompleteClick = {
+                                    viewModel.onEvent(TodoListEvent.ToggleCompleted(todo)) },
+                                onArchiveClick = {
+                                    viewModel.onEvent(TodoListEvent.ToggleArchived(todo)) },
                                 onCardClick = { navController.navigate("todo/${todo.id}") }
                             )
                         }
