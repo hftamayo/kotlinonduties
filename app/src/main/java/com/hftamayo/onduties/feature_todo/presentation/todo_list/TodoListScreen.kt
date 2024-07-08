@@ -200,7 +200,9 @@ fun TodoListScreen(
                                     viewModel.onEvent(TodoListEvent.ToggleCompleted(todo)) },
                                 onArchiveClick = {
                                     viewModel.onEvent(TodoListEvent.ToggleArchived(todo)) },
-                                onCardClick = { navController.navigate("todo/${todo.id}") }
+                                onCardClick = {
+                                    /* navController.navigate("") */
+                                }
                             )
                         }
                     }
