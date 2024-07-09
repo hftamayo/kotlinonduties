@@ -8,6 +8,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.hftamayo.onduties.feature_todo.presentation.todo_list.TodoListViewMode
 import com.hftamayo.onduties.ui.theme.OnDutiesTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,8 +21,9 @@ class MainActivity : ComponentActivity() {
             TodoTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
                 ) {
+                    val navController = rememberNavController()
+                    val listViewModel: TodoListViewModel = hiltViewModel()
 
                 }
             }
