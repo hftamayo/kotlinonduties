@@ -183,6 +183,9 @@ fun TodoListScreen(
                             todo ->
                             TodoItemCard(
                                 todo = todo,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(4.dp),
                                 onDeleteClick = {
                                     viewModel.onEvent(TodoListEvent.Delete(todo))
                                     scope.launch {
