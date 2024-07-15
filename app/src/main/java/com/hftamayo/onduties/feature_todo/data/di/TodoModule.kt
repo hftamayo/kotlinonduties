@@ -5,11 +5,13 @@ import androidx.room.Room
 import com.hftamayo.onduties.feature_todo.data.local.TodoDao
 import com.hftamayo.onduties.feature_todo.data.local.TodoDatabase
 import com.hftamayo.onduties.feature_todo.data.remote.TodoApi
+import com.hftamayo.onduties.feature_todo.data.repo.TodoListRepoImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -47,5 +49,11 @@ object TodoModule {
             TodoDatabase::class.java,
             TodoDatabase.DATABASE_NAME
         ).fallbackToDestructiveMigration().build()
+    }
+
+    @Provides
+    @Singleton
+    fun providesTodoRepo(db: TodoDatabase, api: TodoApi, @IoDispatcher dispatcher: CoroutineDispatcher): TodoListRepoImpl {
+        return TodoListRepoImpl(db.dao, api, dispatcher)
     }
 }
