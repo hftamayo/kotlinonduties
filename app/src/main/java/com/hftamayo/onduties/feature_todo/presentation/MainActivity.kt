@@ -29,6 +29,7 @@ class MainActivity : ComponentActivity() {
             TodoTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
                     val listViewModel: TodoListViewModel = hiltViewModel()
@@ -36,15 +37,16 @@ class MainActivity : ComponentActivity() {
                     NavHost(
                         navController = navController,
                         startDestination = Screen.TodoItemListScreen.route
-                        ){
-                        composable(route = Screen.TodoItemListScreen.route){
+                    ) {
+                        composable(route = Screen.TodoItemListScreen.route) {
                             TodoListScreen(
                                 navController = navController,
                                 viewModel = listViewModel,
                             )
                         }
                         composable(
-                            route = Screen.TodoNewUpdateScreen.route){
+                            route = Screen.TodoNewUpdateScreen.route
+                        ) {
                             //TODO
                         }
                     }
