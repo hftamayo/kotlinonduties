@@ -85,10 +85,8 @@ fun TodoListScreen(
     ModalNavigationDrawer(
             drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet {
-                Box(modifier = Modifier.fillMaxWidth(0.65f)){
-                    ModalDrawerSheet {
-                    }
+            Box(modifier = Modifier.fillMaxWidth(0.65f)) {
+                ModalDrawerSheet {
                     Text(
                         text = TodoListStrings.SORT_BY,
                         modifier = Modifier.padding(16.dp),
@@ -103,9 +101,9 @@ fun TodoListScreen(
                         }
                     )
                 }
-                }
+            }
         }
-    {
+    ){
         Scaffold(
             floatingActionButton = {
                 FloatingActionButton(
