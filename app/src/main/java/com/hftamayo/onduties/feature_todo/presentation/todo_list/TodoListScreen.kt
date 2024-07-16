@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -85,21 +86,24 @@ fun TodoListScreen(
             drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-                Text(
-                    text = TodoListStrings.SORT_BY,
-                    modifier = Modifier.padding(16.dp),
-                    fontSize = 34.sp,
-                    lineHeight = 38.sp
-                )
-                Divider()
-                SortingDrawerOptions(
-                    todoItemOrder = state.todoItemOrder,
-                    onOrderChange = { order ->
-                        viewModel.onEvent(TodoListEvent.Sort(order))
+                Box(modifier = Modifier.fillMaxWidth(0.65f)){
+                    ModalDrawerSheet {
                     }
-                )
-            }
-            //TODO
+                    Text(
+                        text = TodoListStrings.SORT_BY,
+                        modifier = Modifier.padding(16.dp),
+                        fontSize = 34.sp,
+                        lineHeight = 38.sp
+                    )
+                    Divider()
+                    SortingDrawerOptions(
+                        todoItemOrder = state.todoItemOrder,
+                        onOrderChange = { order ->
+                            viewModel.onEvent(TodoListEvent.Sort(order))
+                        }
+                    )
+                }
+                }
         }
     {
         Scaffold(
