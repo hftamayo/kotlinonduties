@@ -81,7 +81,7 @@ fun TodoListScreen(
         viewModel.getTodoItems()
     }
 
-    ModalNavigationDrawer(drawerContent = (
+    ModalNavigationDrawer(
             drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
@@ -101,7 +101,7 @@ fun TodoListScreen(
             }
             //TODO
         }
-    ) {
+    {
         Scaffold(
             floatingActionButton = {
                 FloatingActionButton(
