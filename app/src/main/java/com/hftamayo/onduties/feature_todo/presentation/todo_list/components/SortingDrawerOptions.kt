@@ -1,12 +1,14 @@
 package com.hftamayo.onduties.feature_todo.presentation.todo_list.components
 
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.runtime.Composable
 import com.hftamayo.onduties.core.util.TodoListStrings
 import com.hftamayo.onduties.feature_todo.domain.util.SortingDirection
 import com.hftamayo.onduties.feature_todo.domain.util.TodoItemOrder
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun sortingDrawerOptions(
     todoItemOrder: TodoItemOrder,
@@ -82,7 +84,7 @@ fun sortingDrawerOptions(
         selected = false,
         onClick = {
             onOrderChange(
-                TodoItemOrder.copy(SortingDirection.Down, todoItemOrder.showArchived)
+                todoItemOrder.copy(SortingDirection.Down, todoItemOrder.showArchived)
             )
         }
     )
@@ -98,7 +100,7 @@ fun sortingDrawerOptions(
         selected = false,
         onClick = {
             onOrderChange(
-                TodoItemOrder.copy(SortingDirection.Up, todoItemOrder.showArchived)
+                todoItemOrder.copy(SortingDirection.Up, todoItemOrder.showArchived)
             )
         }
     )
@@ -108,7 +110,7 @@ fun sortingDrawerOptions(
         IconRow(text = TodoListStrings.SHOW_ARCHIVED, isChecked = todoItemOrder.showArchived)
 
     }, selected = false, onClick = {
-        onOrderChange(todoItemOrder.copy(todoItemOrder.sortingDirection, !todoItemOrder))
+        onOrderChange(todoItemOrder.copy(todoItemOrder.sortingDirection, !todoItemOrder.showArchived))
     })
 
 }
