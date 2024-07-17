@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TodoListViewMode @Inject constructor(
+class TodoListViewModel @Inject constructor(
     private val todoUseCase: TodoUseCases,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
