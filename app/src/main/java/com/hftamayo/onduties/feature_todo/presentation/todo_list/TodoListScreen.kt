@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -52,6 +53,7 @@ import androidx.navigation.NavController
 import com.hftamayo.onduties.R
 import com.hftamayo.onduties.core.util.ContentDescriptions
 import com.hftamayo.onduties.core.util.TodoListStrings
+import com.hftamayo.onduties.feature_todo.presentation.todo_list.components.SortingDrawerOptions
 import com.hftamayo.onduties.feature_todo.presentation.todo_list.components.TodoItemCard
 import kotlinx.coroutines.launch
 
@@ -60,7 +62,8 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoListScreen(
-    navController: NavController, viewModel: TodoListViewModel = hiltViewModel()
+    navController: NavController,
+    viewModel: TodoListViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
     val snackbarHostState = remember { SnackbarHostState() }
