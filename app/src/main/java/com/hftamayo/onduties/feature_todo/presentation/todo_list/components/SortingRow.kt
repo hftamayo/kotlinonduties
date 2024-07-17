@@ -11,7 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType.Companion.Text
 import androidx.compose.ui.unit.sp
 import com.hftamayo.onduties.core.util.ContentDescriptions
 
@@ -28,7 +27,7 @@ fun IconRow(
     ) {
         Text(
             text = text,
-            font = 24.sp,
+            fontSize = 24.sp,
             lineHeight = 30.sp,
         )
         if (isChecked) {
@@ -38,6 +37,5 @@ fun IconRow(
                 tint = MaterialTheme.colorScheme.onSecondaryContainer
             )
         }
-
     }
 }
