@@ -10,7 +10,7 @@ import com.hftamayo.onduties.feature_todo.domain.util.TodoItemOrder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun sortingDrawerOptions(
+fun SortingDrawerOptions(
     todoItemOrder: TodoItemOrder,
     onOrderChange: (TodoItemOrder) -> Unit
 ) {
