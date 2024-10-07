@@ -15,5 +15,4 @@ data class TodoNewUpdateState (
     ),
     val isLoading: Boolean = true,
     val error: String?= null,
-    val currentTodoId: Int? = null,
 )
