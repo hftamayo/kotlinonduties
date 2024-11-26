@@ -40,20 +40,37 @@ class TodoNewUpdateViewModel @Inject constructor(
     sealed class UIEvent {
         data class ShowSnackbar(val message: String) : UIEvent()
         object SaveTodo : UIEvent()
-        object Back: UIEvent()
+        object Back : UIEvent()
     }
 
     init {
         savedStateHandle.get<Int>("todoId")?.let { id ->
-            if(id != 1){
+            if (id != 1) {
                 viewModelScope.launch {
+                    todoUseCases.getTodoItemById(id)?.also { todo ->
+                        currentTodoId = id
+                        _state.value = state.value.copy(
+                            todo = todo,
+                            isLoading = false,
+                            isTitleHintVisible = todo.title.isEmpty(),
+                            isDescriptionHintVisible = todo.description.isEmpty(),
+
+                            )
+
+                    }
 
                 }
+            } else {
+                _state.value = state.value.copy(
+                    isLoading = false
+                )
+
             }
+
         }
     }
 
-    fun onEvent(){
+    fun onEvent() {
 
     }
 

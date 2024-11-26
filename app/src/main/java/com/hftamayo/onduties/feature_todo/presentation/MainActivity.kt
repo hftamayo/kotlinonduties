@@ -11,9 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.hftamayo.onduties.feature_todo.presentation.todo_list.TodoListScreen
 import com.hftamayo.onduties.feature_todo.presentation.todo_list.TodoListViewModel
 import com.hftamayo.onduties.feature_todo.presentation.util.Screen
@@ -45,9 +47,25 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(
-                            route = Screen.TodoNewUpdateScreen.route
+                            route = Screen.TodoNewUpdateScreen.route + "/{todoId}",
+                            arguments = listOf(
+                                navArgument(name = "todoId") {
+                                    type = NavType.IntType
+                                    defaultValue = -1
+                                }
+                            )
                         ) {
-                            //TODO
+                            fun onEvent(event: TodoNewUpdateEvent) {
+                                when (event) {
+                                    is TodoNewUpdateEvent.SaveTodo -> {
+                                        listViewModel.onEvent(TodoListEvent.SaveTodo)
+                                        navController.popBackStack()
+                                    }
+                                    is TodoNewUpdateEvent.Back -> {
+                                        navController.popBackStack()
+                                    }
+                                }
+                            }
                         }
                     }
                 }
