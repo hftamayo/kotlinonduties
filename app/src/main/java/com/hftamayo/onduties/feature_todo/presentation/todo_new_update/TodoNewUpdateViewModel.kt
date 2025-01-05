@@ -62,7 +62,7 @@ class TodoNewUpdateViewModel @Inject constructor(
                 }
             } else {
                 _state.value = state.value.copy(
-                    isLoading = false
+                    isLoading = false,
                 )
 
             }
